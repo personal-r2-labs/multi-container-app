@@ -8,7 +8,7 @@ before_install:
 script:
   - docker run romulo2franca/react-test npm test -- --coverage
 
-after_sucess:
+after_success:
   - docker build -t romulo2franca/multi-client ./client
   - docker build -t romulo2franca/multi-nginx ./nginx
   - docker build -t romulo2franca/multi-server ./server
