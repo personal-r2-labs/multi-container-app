@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t romulo2franca/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run romulo2franca/react-test npm test -- --coverage
+
+after_sucess:
+  - docker build -t romulo2franca/multi-client ./client
+  - docker build -t romulo2franca/multi-nginx ./nginx
+  - docker build -t romulo2franca/multi-server ./server
+  - docker build -t romulo2franca/multi-worker ./worker
+#Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# Push the images to docker hub
+  - docker push romulo2franca/multi-client 
+  - docker push romulo2franca/multi-nginx
+  - docker push romulo2franca/multi-server
+  - docker push romulo2franca/multi-worker
