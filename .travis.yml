@@ -20,3 +20,15 @@ after_success:
   - docker push romulo2franca/multi-nginx
   - docker push romulo2franca/multi-server
   - docker push romulo2franca/multi-worker
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: multi-docker
+  env: Multidocker-env
+  bucker_name: elasticbeanstalk-us-east-1-281515538846
+  bucker_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_ID
+  secret_access_key:
+    secure: $AWS_ACCESS_KEY
